@@ -1,5 +1,5 @@
 # my-app
-
+##vue+node+mongoose+e-shop
 > A Vue.js project
 
 ## Build Setup
