@@ -3,11 +3,14 @@
 import App from './App'
 import router from './router'
 import Vue from "vue";
-// import mint from "mint-ui";
-// Vue.use(mint)
+import mint from "mint-ui";
+Vue.use(mint)
 import { Header} from 'mint-ui';
 // import { Button } from 'mint-ui';
-Vue.component(Header.name, Header);
+import ElementUI from 'element-ui';
+import 'element-ui/lib/theme-chalk/index.css';
+// import App from './App.vue';
+Vue.use(ElementUI);
 // Vue.component(Button.name, Button);
 import 'mint-ui/lib/style.css'
 import { Swipe, SwipeItem } from 'mint-ui';

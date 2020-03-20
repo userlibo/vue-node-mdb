@@ -7,6 +7,14 @@ import index from '@/components/index'
 import member from '@/components/member'
 import shopcar from '@/components/shopcar'
 import search from '@/components/search'
+import news from '@/components/news'
+import fuwen from '@/components/fuwen'
+import news_cnt from '@/components/news_cnt'
+import houselist from '@/components/houselist'
+import houseinfo from '@/components/houseinfo'
+import housedesc from '@/components/housedesc'
+import addnews from '@/components/admin/addnews'
+import addhouseinfo from '@/components/admin/addhouseinfo'
 
 
 Vue.use(Router)
@@ -37,6 +45,45 @@ export default new Router({
     {
       path:"/",
       redirect:"/index"
+    },
+    {
+      path:"/index/news",
+      name:"news",
+      component:news
+    },
+    {
+      path:"/index/news/cnt/:newsid",
+      name:"news_cnt",
+      component:news_cnt
+    },
+    {
+      path:"/fuwen",
+      name:"fuwen",
+      component:fuwen
+    },
+    {
+      path:"/admin/addnews",
+      component:addnews
+    },
+    {
+      path:"/admin/addhouseinfo",
+      component:addhouseinfo
+    },
+    {
+      path:"/index/houselist",
+      name:"houselist",
+      component:houselist
+    },
+    {
+      path:"/index/houselist/houseinfo/:houseid",
+      name:"houseinfo",
+      component:houseinfo
+    }
+    ,
+    {
+      path:"/index/houselist/houseinfo/housedesc",
+      name:"housedesc",
+      component:housedesc
     }
   ]
 })
