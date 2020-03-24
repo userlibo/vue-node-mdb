@@ -1,7 +1,9 @@
 <template>
   <div id="app">
 <!-- head区域-->
-    <mt-header title="标题..." class="my-header">
+    <mt-header :title="title" class="my-header">
+      <mt-button v-if="flag" @click="goback" icon="back" slot="left">返回</mt-button>
+      <mt-button icon="more" slot="right"></mt-button>
 <!--      <mt-button v-link="'/'" icon="back" slot="left">返回</mt-button>-->
 <!--      <mt-button icon="more" slot="right"></mt-button>-->
     </mt-header>
@@ -20,7 +22,7 @@
         <span class="mui-tab-label">会员</span>
       </router-link>
       <router-link class="mui-tab-item" to="/shopcar">
-        <span class="mui-icon mui-icon-extra mui-icon-extra-cart"><span class="mui-badge" id="badge">9</span></span>
+        <span class="mui-icon mui-icon-extra mui-icon-extra-cart"><span class="mui-badge" id="badge">{{$store.getters.getAllCount}}</span></span>
         <span class="mui-tab-label">购物车</span>
       </router-link>
 
@@ -34,7 +36,75 @@
 
 <script>
 export default {
-  name: 'App'
+  name: 'App',
+  data:function () {
+   return {
+     flag:true,
+     title:""
+   }
+  },
+  created() {
+       if(this.$route.path==="/"||this.$route.path==="/index")
+       {
+         this.flag=false;
+       }
+       else
+       {
+         this.flag=true;
+       }
+    },
+  methods:{
+    goback()
+    {
+      this.$router.back();
+    }
+  },
+  watch:{
+    "$route.path":function(newval) {
+       if(newval==="/index/news")
+      {
+        this.flag=true;
+        this.title="新闻列表页"
+      }else if(newval.startsWith("/index/news/cnt"))
+      {
+        this.flag=true;
+        // console.log(this.$route.path)
+        this.title="新闻详情页"
+      }
+      else if(newval==="/index/houselist")
+      {
+        this.flag=true;
+        this.title="房源列表";
+      }
+      else if(newval.startsWith("/index/houselist/houseinfo"))
+      {
+        this.flag=true;
+        this.title="房源详情页"
+        if(newval.startsWith("/index/houselist/houseinfo/housedesc"))
+        {
+          this.title="房源图文详情"
+        }
+      }
+      else if(newval==="/shopcar")
+      {
+        this.flag=true;
+         this.title="购物车"
+      }else if(newval==="/"||newval==="/index")
+      {
+        this.flag=false;
+        this.title="首页";
+      }
+      else
+      {
+        this.title="其他"
+        this.flag=true;
+      }
+
+
+
+
+    }
+  }
 }
 </script>
 

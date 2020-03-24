@@ -32,11 +32,12 @@
                <p class="price">市场价:<del>{{housedata.market_price}}万元</del>&nbsp;&nbsp;销售价:<span class="sale-price">{{housedata.sale_price}}</span>万元</p>
                 <div style="text-align: left">订购数量:
 <!--                mui的数字输入框-->
-               <div class="mui-numbox">
-                 <button class="mui-btn mui-btn-numbox-minus" type="button">-</button>
-                 <input class="mui-input-numbox" type="number" value="1" />
-                 <button class="mui-btn mui-btn-numbox-plus" type="button" >+</button>
-               </div>
+                  <numbox @getcount="getselectedcount" ref="numbox"></numbox>
+<!--               <div class="mui-numbox" data-numbox-min="1">-->
+<!--                 <button class="mui-btn mui-btn-numbox-minus" type="button">-</button>-->
+<!--                 <input class="mui-input-numbox" type="number" v-model="selectedcount" />-->
+<!--                 <button class="mui-btn mui-btn-numbox-plus" type="button" >+</button>-->
+<!--               </div>-->
                 </div>
                <p style="text-align: left"> <mt-button type="primary" size="small">立即购买</mt-button> <mt-button type="danger"size="small" @click="getshowball">加入购买</mt-button></p>
              </div>
@@ -61,18 +62,21 @@
 </template>
 
 <script>
-  import mui from "../../node_modules/mui-master/dist/js/mui.js"
+  // import mui from "../../node_modules/mui-master/dist/js/mui.js"
   import swiper from "./swiper"
   import axios from "axios"
-    export default {
+  import numbox from "./numbox2"
+     export default {
         name: "houseinfo",
-      data:function () {
+      data:function (){
          return {
            flag:false,
            id:this.$route.params.houseid,
            housedata:"",
            img_arr:[],
-           max:""
+           selectedcount:1,
+           // this.$refs.numbox.selectedcount,
+           max:60
 
          }
       },
@@ -80,25 +84,40 @@
           this.gethouseinfo();
       },
       mounted() {
-          mui(".mui-numbox").numbox();
+          // mui(".mui-numbox").numbox();
 
-          mui(".mui-numbox").numbox().setOption("min",1);
+          // mui(".mui-numbox").numbox().setOption("min",1);
       }
       ,
-      watch:{
-          "max":function(nv,ov)
-          {
-            console.log("max:",nv)
-            mui(".mui-numbox").numbox().setOption("max",nv);
-          }
-      },
+      // watch:{
+      //     // "max":function(nv,ov)
+      //     // {
+      //     //   console.log("max:",nv)
+      //     //   mui(".mui-numbox").numbox().setOption("max",nv);
+      //     // }
+      // },
       methods:{
+          getselectedcount(count)
+          {
+            this.selectedcount=count;
+          },
 
           getshowball()
           {
-
            this.flag=true;
 
+           let id=this.housedata.id;
+           let price=this.housedata.sale_price;
+           console.log("this.$refs.numbox.count:",this.$refs.numbox.$refs.input1.value)
+           let count=parseInt(this.$refs.numbox.$refs.input1.value)
+            let obj={
+              id:id,
+              count:count,
+              price:price,
+              selected:true
+            };
+           this.$store.commit("addcar",obj);
+           localStorage.setItem("car",JSON.stringify(this.$store.state.car))
           },
           beforeEnter(el)
           {
@@ -138,7 +157,7 @@
           }
       },
       components:{
-          swiper
+          swiper,numbox
       }
     }
 </script>
